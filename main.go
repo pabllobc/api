@@ -77,7 +77,7 @@ func main() {
 			if fmt.Sprintf("%d", task.Id) == id {
 				taskList = append(taskList[:index], taskList[index+1:]...)
 				c.JSON(http.StatusOK, gin.H{
-					"message": "Tarefa com id= " + string(c.Param("id")) + " deletada com sucesso!"})
+					"message": "Tarefa com id=" + string(c.Param("id")) + " deletada com sucesso!"})
 				return
 			}
 		}
@@ -96,7 +96,7 @@ func main() {
 
 		if err := c.BindJSON(&updateTask); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{
-				"message": "Tarefa com id= " + string(c.Param("id")) + " não encontrada!",
+				"message": "Tarefa com id=" + string(c.Param("id")) + " não encontrada!",
 			})
 			return
 
@@ -106,7 +106,7 @@ func main() {
 			if fmt.Sprintf("%d", task.Id) == id {
 				taskList[index] = updateTask
 				c.JSON(http.StatusOK, gin.H{
-					"message": "Tarefa com id= " + string(c.Param("id")) + " atualizada com sucesso!"})
+					"message": "Tarefa com id=" + string(c.Param("id")) + " atualizada com sucesso!"})
 				return
 			}
 		}
