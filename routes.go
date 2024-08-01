@@ -23,9 +23,7 @@ func RegisterRoutes(router *gin.Engine) {
 	router.GET("/", RoutTest)
 
 	//Buscando todas as tarefas
-	router.GET("/tarefas", func(c *gin.Context) {
-		c.IndentedJSON(http.StatusOK, taskList)
-	})
+	router.GET("/tarefas", GetAllTasks)
 
 	//Cadastrando nova tarefa
 	router.POST("/tarefas", func(c *gin.Context) {
