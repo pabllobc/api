@@ -26,22 +26,7 @@ func RegisterRoutes(router *gin.Engine) {
 	router.GET("/tarefas", GetAllTasks)
 
 	//Cadastrando nova tarefa
-	router.POST("/tarefas", func(c *gin.Context) {
-		var newTask Tasks
-
-		if err := c.BindJSON(&newTask); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{
-				"error": err.Error(),
-			})
-			return
-
-		}
-
-		newTask.Id = len(taskList) + 1
-		taskList = append(taskList, newTask)
-		c.JSON(http.StatusOK, newTask)
-
-	})
+	router.POST("/tarefas", AddNewTask)
 
 	//Buscando tarefa por Id
 	router.GET("/tarefas/:id", func(c *gin.Context) {
