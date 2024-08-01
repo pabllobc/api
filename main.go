@@ -64,7 +64,7 @@ func main() {
 		}
 
 		c.JSON(http.StatusNotFound, gin.H{
-			"message": "Tarefa com id= " + string(c.Param("id")) + " não encontrada!",
+			"message": "Tarefa com id=" + string(c.Param("id")) + " não encontrada!",
 		})
 
 	})
@@ -83,7 +83,7 @@ func main() {
 		}
 
 		c.JSON(http.StatusNotFound, gin.H{
-			"message": "Tarefa com id= " + string(c.Param("id")) + " não encontrada!",
+			"message": "Tarefa com id=" + string(c.Param("id")) + " não encontrada!",
 		})
 
 	})
