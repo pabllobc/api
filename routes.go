@@ -20,11 +20,7 @@ var taskList = []Tasks{
 func RegisterRoutes(router *gin.Engine) {
 
 	//Rota de teste raiz
-	router.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "Minha primeira API funcionando!",
-		})
-	})
+	router.GET("/", RoutTest)
 
 	//Buscando todas as tarefas
 	router.GET("/tarefas", func(c *gin.Context) {
