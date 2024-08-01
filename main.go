@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -51,5 +52,22 @@ func main() {
 
 	})
 
+	//Buscando tarefa por Id
+	router.GET("/tarefas/:id", func(c *gin.Context) {
+		id := c.Param("id")
+		for _, task := range taskList {
+			if fmt.Sprintf("%d", task.Id) == id {
+				c.JSON(http.StatusOK, task)
+				return
+			}
+		}
+
+		c.JSON(http.StatusNotFound, gin.H{
+			"message": "Tarefa com id= " + string(c.Param("id")) + " não encontrada",
+		})
+
+	})
+
 	router.Run(":3001")
+
 }
