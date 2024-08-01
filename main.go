@@ -97,7 +97,7 @@ func main() {
 		if err := c.BindJSON(&updateTask); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{
 				"message": "Tarefa com id= " + string(c.Param("id")) + " não encontrada!",
-			}
+			})
 			return
 
 		}
