@@ -4,6 +4,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// Suprimido para consumir no BD SQLite
+/*
+
 type Tasks struct {
 	Id    int    `json:"id`
 	Title string `json:"title`
@@ -13,6 +16,8 @@ var taskList = []Tasks{
 	{Id: 1, Title: "Task 1"},
 	{Id: 2, Title: "Task 2"},
 }
+
+*/
 
 func RegisterRoutes(router *gin.Engine) {
 

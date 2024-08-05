@@ -7,6 +7,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// Incluído para ser utilizado pelo BD
+type Tasks struct {
+	Id    int    `json:"id`
+	Title string `json:"title`
+}
+
+var taskList = []Tasks{
+	{Id: 1, Title: "Task 1"},
+	{Id: 2, Title: "Task 2"},
+}
+
 // Rota de teste raiz
 func RoutTest(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
@@ -15,15 +26,41 @@ func RoutTest(c *gin.Context) {
 }
 
 // Buscando todas as tarefas
+/*
 func GetAllTasks(c *gin.Context) {
-
 	c.IndentedJSON(http.StatusOK, taskList)
+
+}
+*/
+
+func GetAllTasks(c *gin.Context) {
+	rows, err := DB.Query("SELECT id, title FROM tasks")
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	}
+
+	defer rows.Close()
+
+	var tasks []Tasks
+
+	for rows.Next() {
+		var task Tasks
+		if err := rows.Scan(&task.Id, &task.Title); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		}
+
+		tasks = append(tasks, task)
+
+	}
+
+	c.JSON(http.StatusOK, tasks)
 
 }
 
 // Cadastrando nova tarefa
+/*
 func AddNewTask(c *gin.Context) {
-
 	var newTask Tasks
 
 	if err := c.BindJSON(&newTask); err != nil {
@@ -37,6 +74,36 @@ func AddNewTask(c *gin.Context) {
 	newTask.Id = len(taskList) + 1
 	taskList = append(taskList, newTask)
 	c.JSON(http.StatusOK, newTask)
+
+}
+*/
+
+func AddNewTask(c *gin.Context) {
+	var newTask Tasks
+
+	if err := c.BindJSON(&newTask); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	result, err := DB.Exec("INSERT INTO tasks (title) VALUES (?)", newTask.Title)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	id, err := result.LastInsertId()
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	newTask.Id = int(id)
+	c.JSON(http.StatusCreated, newTask)
 
 }
 
