@@ -24,6 +24,7 @@ Bem-vindo ao Projeto API! Este repositório hospeda uma API simples, porém pode
 - Operações CRUD para várias entidades
 - Tratamento de erros e validação
 - Otimização de escalabilidade e desempenho
+- Banco de dados SQLite
 
 ## Primeiros Passos
 
@@ -65,7 +66,9 @@ Certifique-se de ter os seguintes itens instalados em sua máquina:
 Para executar o servidor em modo de desenvolvimento, use:
 
 ```bash
-go run main.go
+# go run main.go
+# Para executar todo o projeto utilize:
+go run .
 ```
 
 O servidor iniciará em `http://localhost:3000`.
@@ -89,6 +92,11 @@ A aplicação usa variáveis de ambiente para configuração. As seguintes vari�
 - `PORT` - O número da porta na qual o servidor será executado
 - `MONGODB_URI` - A string de conexão para o banco de dados MongoDB
 - `JWT_SECRET` - A chave secreta para geração de JSON Web Token (JWT)
+
+## Configuração do BD SQLite
+- Abra o terminal
+- go get modernc.org/sqlite
+- Crie um arquivo de inicialização do BD - db.go
 
 ## Testes
 
