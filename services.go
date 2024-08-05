@@ -108,8 +108,8 @@ func AddNewTask(c *gin.Context) {
 }
 
 // Buscando tarefa por Id
+/*
 func GetTaskById(c *gin.Context) {
-
 	id := c.Param("id")
 
 	for _, task := range taskList {
@@ -122,6 +122,21 @@ func GetTaskById(c *gin.Context) {
 	c.JSON(http.StatusNotFound, gin.H{
 		"message": "Tarefa com id=" + string(c.Param("id")) + " não encontrada!",
 	})
+
+}
+*/
+func GetTaskById(c *gin.Context) {
+	id := c.Param("id")
+
+	var task Tasks
+
+	row := DB.QueryRow("SELECT id, title FROM tasks WHERE id = ?", id)
+
+	if err := row.Scan(&task.Id, &task.Title); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	}
+
+	c.JSON(http.StatusOK, task)
 
 }
 
