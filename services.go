@@ -1,8 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -13,10 +13,12 @@ type Tasks struct {
 	Title string `json:"title`
 }
 
+/* Desabilitada pela utilização do BD
 var taskList = []Tasks{
 	{Id: 1, Title: "Task 1"},
 	{Id: 2, Title: "Task 2"},
 }
+*/
 
 // Rota de teste raiz
 func RoutTest(c *gin.Context) {
@@ -174,8 +176,8 @@ func DeleteTaskById(c *gin.Context) {
 }
 
 // Editando tarefa por Id
+/*
 func UpdateTaskById(c *gin.Context) {
-
 	id := c.Param("id")
 
 	var updateTask Tasks
@@ -199,6 +201,34 @@ func UpdateTaskById(c *gin.Context) {
 
 	c.JSON(http.StatusNotFound, gin.H{
 		"message": "Tarefa com id=" + string(c.Param("id")) + " não encontrada!",
+	})
+
+}
+*/
+func UpdateTaskById(c *gin.Context) {
+	//id := c.Param("id")
+	id, _ := strconv.Atoi(c.Param("id"))
+
+	var updateTask Tasks
+
+	if err := c.BindJSON(&updateTask); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "Tarefa com id=" + string(c.Param("id")) + " não encontrada!",
+		})
+		return
+
+	}
+
+	_, err := DB.Exec("UPDATE tasks SET title = ? WHERE id = ?", updateTask.Title, id)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	}
+
+	updateTask.Id = id
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Tarefa com id=" + string(c.Param("id")) + " atualizada com sucesso!",
 	})
 
 }
