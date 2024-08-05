@@ -32,7 +32,6 @@ func GetAllTasks(c *gin.Context) {
 
 }
 */
-
 func GetAllTasks(c *gin.Context) {
 	rows, err := DB.Query("SELECT id, title FROM tasks")
 
@@ -77,7 +76,6 @@ func AddNewTask(c *gin.Context) {
 
 }
 */
-
 func AddNewTask(c *gin.Context) {
 	var newTask Tasks
 
@@ -141,8 +139,8 @@ func GetTaskById(c *gin.Context) {
 }
 
 // Deletando tarefa por Id
+/*
 func DeleteTaskById(c *gin.Context) {
-
 	id := c.Param("id")
 
 	for index, task := range taskList {
@@ -155,6 +153,21 @@ func DeleteTaskById(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusNotFound, gin.H{
+		"message": "Tarefa com id=" + string(c.Param("id")) + " não encontrada!",
+	})
+
+}
+*/
+func DeleteTaskById(c *gin.Context) {
+	id := c.Param("id")
+
+	_, err := DB.Exec("DELETE FROM tasks WHERE id = ?", id)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	}
+
+	c.JSON(http.StatusOK, gin.H{
 		"message": "Tarefa com id=" + string(c.Param("id")) + " não encontrada!",
 	})
 
