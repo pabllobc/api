@@ -13,4 +13,6 @@ func main() {
 
 	router.Run(":3001")
 
+	// Implementando um BD - Após a consolidação das rotas
+
 }
